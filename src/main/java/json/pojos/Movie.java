@@ -21,48 +21,70 @@ public class Movie implements Serializable {
     @JsonAlias(value = {"backdropPath", "backdrop_path"})
     String backdropPath;
 
+    @JsonProperty("belongs_to_collection")
     Collection belongsToCollection;
 
+    @JsonProperty("budget")
     Integer budget;
 
+    @JsonProperty("genres")
     List<Genre> genres;
 
+    @JsonProperty("homepage")
     String homepage;
 
+    @JsonProperty("imdb_id")
     String imdbId;
 
+    @JsonProperty("original_language")
     String originalLanguage;
 
+    @JsonProperty("original_title")
     String originalTitle;
 
+    @JsonProperty("overview")
     String overview;
 
+    @JsonProperty("popularity")
     Float popularity;
 
+    @JsonProperty("poster_path")
     String posterPath;
 
+    @JsonProperty("production_companies")
     List<ProductionCompany> productionCompanies;
 
+    @JsonProperty("production_countries")
     List<ProductionCountry> productionCountries;
 
+    @JsonProperty("release_date")
     Date releaseDate;
 
+    @JsonProperty("revenue")
     Integer revenue;
 
-    Integer runTime;
+    @JsonProperty("runtime")
+    Integer runtime;
 
+    @JsonProperty("spoken_languages")
     List<Language> spokenLanguages;
 
+    @JsonProperty("status")
     String status;
 
+    @JsonProperty("tagline")
     String tagline;
 
+    @JsonProperty("title")
     String title;
 
+    @JsonProperty("video")
     Boolean video;
 
+    @JsonProperty("vote_average")
     Float voteAverage;
 
+    @JsonProperty("vote_count")
     Integer voteCountry;
 
 

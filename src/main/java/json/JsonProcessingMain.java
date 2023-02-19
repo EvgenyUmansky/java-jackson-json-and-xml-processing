@@ -1,11 +1,20 @@
 package json;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import json.lessons.UseObjectMapper;
+import json.pojos.Movies;
+
+import java.nio.file.Paths;
+
 public class JsonProcessingMain {
     public static void main(String[] args) throws Exception {
-        JsonProcessingUtils.mergeJsonToFile(
-                "C:\\Users\\eugum\\Desktop\\JavaCourses\\JsonXml\\java-json-xml-processing\\src\\main\\resources\\separate_movie_jsons",
-                "C:\\Users\\eugum\\Desktop\\JavaCourses\\JsonXml\\java-json-xml-processing\\src\\main\\resources",
-                "all_movies.json",
-                "movies");
+        // --------------- Read JSON with Object Mapper ---------------
+
+        // From File
+        UseObjectMapper.readFromFile();
+
+        // From String
+        UseObjectMapper.readFromString();
+
     }
 }

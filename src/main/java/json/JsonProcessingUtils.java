@@ -16,6 +16,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 public class JsonProcessingUtils {
+    // --------------- Read Separate JSON Files -> Write Them to Single JSON File ---------------
     public static void mergeJsonToFile(String absoluteSourceDirPath, String absoluteTargetDirPath, String fileName, String metaKeyName) throws Exception {
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -43,5 +44,31 @@ public class JsonProcessingUtils {
 
         root.putIfAbsent(metaKeyName, arrayNode);
         objectMapper.writeValue(new File(targetFullPath), root); // write to file
+    }
+
+    // --------------- Read Separate JSON Files -> Write Them to String ---------------
+    public static String mergeJsonToString(String absoluteSourceDirPath, String metaKeyName) throws Exception {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        ArrayNode arrayNode = objectMapper.createArrayNode();
+        ObjectNode root = JsonNodeFactory.instance.objectNode();
+
+        // read all JSON files from source directory to string joiner
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(absoluteSourceDirPath))) {
+            for (Path path : stream) {
+                if (!Files.isDirectory(path) && FilenameUtils.getExtension(path.toString()).equals("json")) {
+                    JsonNode json = objectMapper.readTree(Files.readString(path, StandardCharsets.UTF_8));
+                    arrayNode.add(json);
+                }
+            }
+        } catch (Exception e) {
+            throw new Exception("[mergeJsonToFile] Failed to read {%s} source directory with JSON files"
+                    .formatted(absoluteSourceDirPath), e);
+        }
+
+        root.putIfAbsent(metaKeyName, arrayNode);
+
+        return root.toString();
     }
 }
