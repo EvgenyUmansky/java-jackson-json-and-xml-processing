@@ -1,4 +1,4 @@
-package json.pojos.partialjson;
+package json.pojos.movies.partialjson;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,15 +1,17 @@
-package json.pojos.fulljson;
+package json.pojos.movies.partialjson;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Data
+@ToString
 @JsonIgnoreProperties
-public class Movies implements Serializable {
+public class PartialMovies implements Serializable {
     @JsonProperty("movies")
-    List<Movie> movies;
+    List<PartialMovie> partialMovies;
 }

@@ -3,8 +3,8 @@ package json.lessons;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import json.JsonProcessingUtils;
-import json.pojos.fulljson.Movies;
-import json.pojos.partialjson.PartialMovies;
+import json.pojos.movies.fulljson.Movies;
+import json.pojos.movies.partialjson.PartialMovies;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
@@ -103,5 +103,9 @@ public class UseObjectMapper {
         // System.out.println(partialMovies);
 
         return partialMovies;
+    }
+
+    public void addValueToJson(String fileName) throws IOException {
+
     }
 }

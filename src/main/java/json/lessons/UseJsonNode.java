@@ -3,6 +3,7 @@ package json.lessons;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import json.JsonProcessingUtils;
+import json.pojos.movies.partialjson.*;
 import json.pojos.partialjson.*;
 import lombok.extern.log4j.Log4j2;
 
