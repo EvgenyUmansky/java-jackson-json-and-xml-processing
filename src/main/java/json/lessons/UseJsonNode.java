@@ -15,7 +15,7 @@ import java.util.Objects;
 
 @Log4j2
 public class UseJsonNode {
-    public static void parseJson() throws Exception {
+    public void parseJson() throws Exception {
         JsonProcessingUtils.mergePartialJsonToFile(
                 Objects.requireNonNull(UseObjectMapper.class.getResource("/separate_movie_jsons"))
                         .getFile()
@@ -35,7 +35,7 @@ public class UseJsonNode {
         System.out.printf("[UseJsonNode] manual sequential parsing with ObjectMapper readTree runtime: %d ms%n", end - start);
     }
 
-    public static PartialMovies readTreeSequentialSerializePartialMovies(String fileName) throws IOException, ParseException {
+    public PartialMovies readTreeSequentialSerializePartialMovies(String fileName) throws IOException, ParseException {
         ObjectMapper objectMapper = new ObjectMapper();
 
         JsonNode moviesPartialJsonNode =

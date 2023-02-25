@@ -2,7 +2,6 @@ package json.lessons;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import json.JsonProcessingUtils;
 import json.pojos.partialjson.*;
 import lombok.extern.log4j.Log4j2;
 
@@ -10,23 +9,12 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.StreamSupport;
 
 @Log4j2
 public class ParallelUseJsonNode {
-    public static void parseJson() throws Exception {
-        JsonProcessingUtils.mergePartialJsonToFile(
-                Objects.requireNonNull(UseObjectMapper.class.getResource("/separate_movie_jsons"))
-                        .getFile()
-                        .replaceFirst("/", ""), // replace /C:/ to C:/
-                Objects.requireNonNull(UseObjectMapper.class.getResource(""))
-                        .getFile()
-                        .replaceFirst("/", ""), // replace /C:/ to C:/
-                "all_movies.json",
-                "movies");
-
+    public void parseJson() throws Exception {
         // You may choose readTree when you do not know exact type of the Object
         // or want to preprocess a field before adding it to POJO
         long start = System.currentTimeMillis();
@@ -37,7 +25,7 @@ public class ParallelUseJsonNode {
                 end - start);
     }
 
-    public static PartialMovies readTreeParallelSerializePartialMovies(String fileName) throws IOException, ParseException {
+    public PartialMovies readTreeParallelSerializePartialMovies(String fileName) throws IOException, ParseException {
         ObjectMapper objectMapper = new ObjectMapper();
 
         JsonNode moviesPartialJsonNode =
@@ -123,27 +111,27 @@ public class ParallelUseJsonNode {
 
                     StreamSupport.stream(productionCompanyListNode.spliterator(), true)
                             .forEach(productionCompanyNode -> {
-                        ProductionCompany productionCompany = new ProductionCompany();
+                                ProductionCompany productionCompany = new ProductionCompany();
 
-                        if (!productionCompanyNode.get("id").isNull()) {
-                            productionCompany.setProductionCompanyId(productionCompanyNode.get("id").asInt());
-                        }
+                                if (!productionCompanyNode.get("id").isNull()) {
+                                    productionCompany.setProductionCompanyId(productionCompanyNode.get("id").asInt());
+                                }
 
-                        if (!productionCompanyNode.get("name").isNull()) {
-                            productionCompany.setProductionCompanyName(productionCompanyNode.get("name").asText());
-                        }
+                                if (!productionCompanyNode.get("name").isNull()) {
+                                    productionCompany.setProductionCompanyName(productionCompanyNode.get("name").asText());
+                                }
 
-                        // can be null
-                        if (!productionCompanyNode.get("logo_path").isNull()) {
-                            productionCompany.setLogoPath(productionCompanyNode.get("logo_path").asText());
-                        }
+                                // can be null
+                                if (!productionCompanyNode.get("logo_path").isNull()) {
+                                    productionCompany.setLogoPath(productionCompanyNode.get("logo_path").asText());
+                                }
 
-                        if (!productionCompanyNode.get("origin_country").isNull()) {
-                            productionCompany.setOriginCountry(productionCompanyNode.get("origin_country").asText());
-                        }
+                                if (!productionCompanyNode.get("origin_country").isNull()) {
+                                    productionCompany.setOriginCountry(productionCompanyNode.get("origin_country").asText());
+                                }
 
-                        productionCompanyList.add(productionCompany);
-                    });
+                                productionCompanyList.add(productionCompany);
+                            });
 
                     movie.setProductionCompanies(productionCompanyList);
                 }
@@ -156,18 +144,18 @@ public class ParallelUseJsonNode {
 
                     StreamSupport.stream(productionCountryListNode.spliterator(), true)
                             .forEach(productionCountryNode -> {
-                        ProductionCountry productionCountry = new ProductionCountry();
+                                ProductionCountry productionCountry = new ProductionCountry();
 
-                        if (!productionCountryNode.get("iso_3166_1").isNull()) {
-                            productionCountry.setCountryCode(productionCountryNode.get("iso_3166_1").asText());
-                        }
+                                if (!productionCountryNode.get("iso_3166_1").isNull()) {
+                                    productionCountry.setCountryCode(productionCountryNode.get("iso_3166_1").asText());
+                                }
 
-                        if (!productionCountryNode.get("name").isNull()) {
-                            productionCountry.setCountryName(productionCountryNode.get("name").asText());
-                        }
+                                if (!productionCountryNode.get("name").isNull()) {
+                                    productionCountry.setCountryName(productionCountryNode.get("name").asText());
+                                }
 
-                        productionCountryList.add(productionCountry);
-                    });
+                                productionCountryList.add(productionCountry);
+                            });
 
                     movie.setProductionCountries(productionCountryList);
                 }

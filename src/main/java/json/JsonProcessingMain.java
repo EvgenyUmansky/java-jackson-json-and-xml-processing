@@ -9,13 +9,24 @@ public class JsonProcessingMain {
         // --------------- Read JSON with Object Mapper ---------------
 
         // From File
-        //UseObjectMapper.readFromFile();
-        UseObjectMapper.readPartialJsonFromFile();
-        UseJsonNode.parseJson();
-        ParallelUseJsonNode.parseJson();
+        // UseObjectMapper.readFromFile();
+//        JsonProcessingUtils.mergePartialJsonToFile(
+//                Objects.requireNonNull(UseObjectMapper.class.getResource("/separate_movie_jsons"))
+//                        .getFile()
+//                        .replaceFirst("/", ""), // replace /C:/ to C:/
+//                Objects.requireNonNull(UseObjectMapper.class.getResource(""))
+//                        .getFile()
+//                        .replaceFirst("/", ""), // replace /C:/ to C:/
+//                "all_movies.json",
+//                "movies");
+        UseObjectMapper useObjectMapper = new UseObjectMapper();
+        UseJsonNode useJsonNode = new UseJsonNode();
+        ParallelUseJsonNode parallelUseJsonNode = new ParallelUseJsonNode();
 
-        // From String
-        // UseObjectMapper.readFromString();
+        useObjectMapper.readPartialJsonFromFilePojo();
+        useJsonNode.parseJson();
+        parallelUseJsonNode.parseJson();
+
 
     }
 }
