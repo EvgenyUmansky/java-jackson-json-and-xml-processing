@@ -1,8 +1,9 @@
-package json.pojos;
+package json.pojos.fulljson;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.*;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -10,12 +11,14 @@ import java.util.Date;
 import java.util.List;
 
 @Data
+@JsonIgnoreProperties
 public class Movie implements Serializable {
 
     // talk / overview JsonProperty with all its attributes
-    @JsonProperty(value= "id", access = Access.READ_WRITE)
+    @JsonProperty(value = "id", access = Access.READ_WRITE)
     Integer movieId;
 
+    @JsonProperty("adult")
     Boolean adult;
 
     @JsonAlias(value = {"backdropPath", "backdrop_path"})
@@ -85,7 +88,7 @@ public class Movie implements Serializable {
     Float voteAverage;
 
     @JsonProperty("vote_count")
-    Integer voteCountry;
+    Integer voteCount;
 
 
 }

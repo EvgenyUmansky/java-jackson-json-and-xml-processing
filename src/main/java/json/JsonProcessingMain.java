@@ -1,20 +1,21 @@
 package json;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import json.lessons.ParallelUseJsonNode;
+import json.lessons.UseJsonNode;
 import json.lessons.UseObjectMapper;
-import json.pojos.Movies;
-
-import java.nio.file.Paths;
 
 public class JsonProcessingMain {
     public static void main(String[] args) throws Exception {
         // --------------- Read JSON with Object Mapper ---------------
 
         // From File
-        UseObjectMapper.readFromFile();
+        //UseObjectMapper.readFromFile();
+        UseObjectMapper.readPartialJsonFromFile();
+        UseJsonNode.parseJson();
+        ParallelUseJsonNode.parseJson();
 
         // From String
-        UseObjectMapper.readFromString();
+        // UseObjectMapper.readFromString();
 
     }
 }

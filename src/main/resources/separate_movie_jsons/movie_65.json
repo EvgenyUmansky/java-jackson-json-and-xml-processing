@@ -1,1 +1,59 @@
-{"adult":false,"backdrop_path":"/bfccQmQWNFQYRv4PHgCnjDu7PXn.jpg","belongs_to_collection":null,"budget":41000000,"genres":[{"id":18,"name":"Drama"},{"id":10402,"name":"Music"}],"homepage":"","id":65,"imdb_id":"tt0298203","original_language":"en","original_title":"8 Mile","overview":"The setting is Detroit in 1995. The city is divided by 8 Mile, a road that splits the town in half along racial lines. A young white rapper, Jimmy \"B-Rabbit\" Smith Jr. summons strength within himself to cross over these arbitrary boundaries to fulfill his dream of success in hip hop. With his pal Future and the three one third in place, all he has to do is not choke.","popularity":21.216,"poster_path":"/7BmQj8qE1FLuLTf7Xjf9sdIHzoa.jpg","production_companies":[{"id":24,"logo_path":null,"name":"Mikona Productions GmbH & Co. KG","origin_country":"DE"},{"id":23,"logo_path":"/mkxNjThahj5pvntvYKVpMbWXm3D.png","name":"Imagine Entertainment","origin_country":"US"}],"production_countries":[{"iso_3166_1":"US","name":"United States of America"}],"release_date":"2002-11-08","revenue":242875078,"runtime":110,"spoken_languages":[{"iso_639_1":"en","name":"English"}],"status":"Released","tagline":"Every Moment Is Another Chance","title":"8 Mile","video":false,"vote_average":7.0,"vote_count":4498}
+{
+  "adult": false,
+  "backdrop_path": "/bfccQmQWNFQYRv4PHgCnjDu7PXn.jpg",
+  "belongs_to_collection": null,
+  "budget": 41000000,
+  "genres": [
+    {
+      "id": 18,
+      "name": "Drama"
+    },
+    {
+      "id": 10402,
+      "name": "Music"
+    }
+  ],
+  "homepage": "",
+  "id": 65,
+  "imdb_id": "tt0298203",
+  "original_language": "en",
+  "original_title": "8 Mile",
+  "overview": "The setting is Detroit in 1995. The city is divided by 8 Mile, a road that splits the town in half along racial lines. A young white rapper, Jimmy \"B-Rabbit\" Smith Jr. summons strength within himself to cross over these arbitrary boundaries to fulfill his dream of success in hip hop. With his pal Future and the three one third in place, all he has to do is not choke.",
+  "popularity": 21.216,
+  "poster_path": "/7BmQj8qE1FLuLTf7Xjf9sdIHzoa.jpg",
+  "production_companies": [
+    {
+      "id": 24,
+      "logo_path": null,
+      "name": "Mikona Productions GmbH & Co. KG",
+      "origin_country": "DE"
+    },
+    {
+      "id": 23,
+      "logo_path": "/mkxNjThahj5pvntvYKVpMbWXm3D.png",
+      "name": "Imagine Entertainment",
+      "origin_country": "US"
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "US",
+      "name": "United States of America"
+    }
+  ],
+  "release_date": "2002-11-08",
+  "revenue": 242875078,
+  "runtime": 110,
+  "spoken_languages": [
+    {
+      "iso_639_1": "en",
+      "name": "English"
+    }
+  ],
+  "status": "Released",
+  "tagline": "Every Moment Is Another Chance",
+  "title": "8 Mile",
+  "video": false,
+  "vote_average": 7.0,
+  "vote_count": 4498
+}

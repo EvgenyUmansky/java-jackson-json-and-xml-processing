@@ -1,1 +1,74 @@
-{"adult":false,"backdrop_path":"/pDMNtdSbwXZIz1TSSEPhcQYDJvt.jpg","belongs_to_collection":{"id":85861,"name":"Beverly Hills Cop Collection","poster_path":"/ty7zsl0xkVDUlibYkFUjRAYUkvE.jpg","backdrop_path":"/tXopIfFut30C8TqpLrYgTsXism6.jpg"},"budget":14000000,"genres":[{"id":28,"name":"Action"},{"id":35,"name":"Comedy"},{"id":80,"name":"Crime"}],"homepage":"https://www.paramount.com/movies/beverly-hills-cop","id":90,"imdb_id":"tt0086960","original_language":"en","original_title":"Beverly Hills Cop","overview":"Tough-talking Detroit cop Axel Foley heads to the rarified world of Beverly Hills in his beat-up Chevy Nova to investigate a friend's murder, but soon realizes he's stumbled onto something much more complicated. Bungling rookie detective, Billy Rosewood joins the fish-out-of-water Axel and shows him the West Los Angeles ropes.","popularity":17.712,"poster_path":"/2O0KSDef3gRuoOswd9HCv0HSfXL.jpg","production_companies":[{"id":4,"logo_path":"/fycMZt242LVjagMByZOLUGbCvv3.png","name":"Paramount","origin_country":"US"},{"id":30,"logo_path":null,"name":"Eddie Murphy Productions","origin_country":""},{"id":10288,"logo_path":null,"name":"Don Simpson/Jerry Bruckheimer Films","origin_country":"US"}],"production_countries":[{"iso_3166_1":"US","name":"United States of America"}],"release_date":"1984-01-25","revenue":316360478,"runtime":105,"spoken_languages":[{"iso_639_1":"en","name":"English"}],"status":"Released","tagline":"The Heat Is On!","title":"Beverly Hills Cop","video":false,"vote_average":7.2,"vote_count":2377}
+{
+  "adult": false,
+  "backdrop_path": "/pDMNtdSbwXZIz1TSSEPhcQYDJvt.jpg",
+  "belongs_to_collection": {
+    "id": 85861,
+    "name": "Beverly Hills Cop Collection",
+    "poster_path": "/ty7zsl0xkVDUlibYkFUjRAYUkvE.jpg",
+    "backdrop_path": "/tXopIfFut30C8TqpLrYgTsXism6.jpg"
+  },
+  "budget": 14000000,
+  "genres": [
+    {
+      "id": 28,
+      "name": "Action"
+    },
+    {
+      "id": 35,
+      "name": "Comedy"
+    },
+    {
+      "id": 80,
+      "name": "Crime"
+    }
+  ],
+  "homepage": "https://www.paramount.com/movies/beverly-hills-cop",
+  "id": 90,
+  "imdb_id": "tt0086960",
+  "original_language": "en",
+  "original_title": "Beverly Hills Cop",
+  "overview": "Tough-talking Detroit cop Axel Foley heads to the rarified world of Beverly Hills in his beat-up Chevy Nova to investigate a friend's murder, but soon realizes he's stumbled onto something much more complicated. Bungling rookie detective, Billy Rosewood joins the fish-out-of-water Axel and shows him the West Los Angeles ropes.",
+  "popularity": 17.712,
+  "poster_path": "/2O0KSDef3gRuoOswd9HCv0HSfXL.jpg",
+  "production_companies": [
+    {
+      "id": 4,
+      "logo_path": "/fycMZt242LVjagMByZOLUGbCvv3.png",
+      "name": "Paramount",
+      "origin_country": "US"
+    },
+    {
+      "id": 30,
+      "logo_path": null,
+      "name": "Eddie Murphy Productions",
+      "origin_country": ""
+    },
+    {
+      "id": 10288,
+      "logo_path": null,
+      "name": "Don Simpson/Jerry Bruckheimer Films",
+      "origin_country": "US"
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "US",
+      "name": "United States of America"
+    }
+  ],
+  "release_date": "1984-01-25",
+  "revenue": 316360478,
+  "runtime": 105,
+  "spoken_languages": [
+    {
+      "iso_639_1": "en",
+      "name": "English"
+    }
+  ],
+  "status": "Released",
+  "tagline": "The Heat Is On!",
+  "title": "Beverly Hills Cop",
+  "video": false,
+  "vote_average": 7.2,
+  "vote_count": 2377
+}

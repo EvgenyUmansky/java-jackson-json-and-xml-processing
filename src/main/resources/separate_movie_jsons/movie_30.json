@@ -1,1 +1,58 @@
-{"adult":false,"backdrop_path":"/1T8EKJ1zTzAsk48PLxq5ev7ZuQx.jpg","belongs_to_collection":{"id":685635,"name":"MEMORIES","poster_path":"/kVrP6X6Bz5LovihBcZvjM0jjHEx.jpg","backdrop_path":"/hCamE1OKthhQQCYPj1lIl8LkqQh.jpg"},"budget":0,"genres":[{"id":16,"name":"Animation"},{"id":878,"name":"Science Fiction"}],"homepage":"","id":30,"imdb_id":"tt1530535","original_language":"ja","original_title":"彼女の想いで","overview":"Koji Morimato’s animated science fiction short story about how the border between reality and illusion on a space station becomes blurry.","popularity":5.347,"poster_path":"/l9DUhyZx9lm0oxNi6NsyvANeL8t.jpg","production_companies":[{"id":11671,"logo_path":"/iRdYQdn1eunwV3qAs6RK5Mqwn8Z.png","name":"Studio 4°C","origin_country":"JP"}],"production_countries":[{"iso_3166_1":"JP","name":"Japan"}],"release_date":"1995-12-23","revenue":0,"runtime":44,"spoken_languages":[{"iso_639_1":"ja","name":"日本語"}],"status":"Released","tagline":"","title":"Magnetic Rose","video":false,"vote_average":4.2,"vote_count":88}
+{
+  "adult": false,
+  "backdrop_path": "/1T8EKJ1zTzAsk48PLxq5ev7ZuQx.jpg",
+  "belongs_to_collection": {
+    "id": 685635,
+    "name": "MEMORIES",
+    "poster_path": "/kVrP6X6Bz5LovihBcZvjM0jjHEx.jpg",
+    "backdrop_path": "/hCamE1OKthhQQCYPj1lIl8LkqQh.jpg"
+  },
+  "budget": 0,
+  "genres": [
+    {
+      "id": 16,
+      "name": "Animation"
+    },
+    {
+      "id": 878,
+      "name": "Science Fiction"
+    }
+  ],
+  "homepage": "",
+  "id": 30,
+  "imdb_id": "tt1530535",
+  "original_language": "ja",
+  "original_title": "彼女の想いで",
+  "overview": "Koji Morimato’s animated science fiction short story about how the border between reality and illusion on a space station becomes blurry.",
+  "popularity": 5.347,
+  "poster_path": "/l9DUhyZx9lm0oxNi6NsyvANeL8t.jpg",
+  "production_companies": [
+    {
+      "id": 11671,
+      "logo_path": "/iRdYQdn1eunwV3qAs6RK5Mqwn8Z.png",
+      "name": "Studio 4°C",
+      "origin_country": "JP"
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "JP",
+      "name": "Japan"
+    }
+  ],
+  "release_date": "1995-12-23",
+  "revenue": 0,
+  "runtime": 44,
+  "spoken_languages": [
+    {
+      "iso_639_1": "ja",
+      "name": "日本語"
+    }
+  ],
+  "status": "Released",
+  "tagline": "",
+  "title": "Magnetic Rose",
+  "video": false,
+  "vote_average": 4.2,
+  "vote_count": 88
+}

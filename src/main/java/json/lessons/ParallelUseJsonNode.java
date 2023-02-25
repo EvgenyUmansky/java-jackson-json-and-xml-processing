@@ -9,12 +9,13 @@ import lombok.extern.log4j.Log4j2;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.StreamSupport;
 
 @Log4j2
-public class UseJsonNode {
+public class ParallelUseJsonNode {
     public static void parseJson() throws Exception {
         JsonProcessingUtils.mergePartialJsonToFile(
                 Objects.requireNonNull(UseObjectMapper.class.getResource("/separate_movie_jsons"))
@@ -29,13 +30,14 @@ public class UseJsonNode {
         // You may choose readTree when you do not know exact type of the Object
         // or want to preprocess a field before adding it to POJO
         long start = System.currentTimeMillis();
-        PartialMovies partialMovies = readTreeSequentialSerializePartialMovies("all_movies.json");
+        PartialMovies partialMovies = readTreeParallelSerializePartialMovies("all_movies.json");
         long end = System.currentTimeMillis();
 
-        System.out.printf("[UseJsonNode] manual sequential parsing with ObjectMapper readTree runtime: %d ms%n", end - start);
+        System.out.printf("[UseJsonNode] manual stream parallel parsing with ObjectMapper readTree runtime: %d ms%n",
+                end - start);
     }
 
-    public static PartialMovies readTreeSequentialSerializePartialMovies(String fileName) throws IOException, ParseException {
+    public static PartialMovies readTreeParallelSerializePartialMovies(String fileName) throws IOException, ParseException {
         ObjectMapper objectMapper = new ObjectMapper();
 
         JsonNode moviesPartialJsonNode =
@@ -48,9 +50,9 @@ public class UseJsonNode {
         JsonNode moviesNode = moviesPartialJsonNode.get("movies");
 
         if (!moviesNode.isNull() && moviesNode.isArray()) {
-            List<PartialMovie> movies = new ArrayList<>();
+            List<PartialMovie> movies = new CopyOnWriteArrayList<>();
 
-            for (JsonNode movieNode : moviesNode) {
+            StreamSupport.stream(moviesNode.spliterator(), true).forEach(movieNode -> {
                 PartialMovie movie = new PartialMovie();
 
                 // ############ FLAT FIELDS ############
@@ -75,7 +77,11 @@ public class UseJsonNode {
                 }
 
                 if (!movieNode.get("release_date").isNull()) {
-                    movie.setReleaseDate(new SimpleDateFormat("yyyy-MM-dd").parse(movieNode.get("release_date").asText()));
+                    try {
+                        movie.setReleaseDate(new SimpleDateFormat("yyyy-MM-dd").parse(movieNode.get("release_date").asText()));
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
 
                 if (!movieNode.get("status").isNull()) {
@@ -90,9 +96,9 @@ public class UseJsonNode {
                 JsonNode genreListNode = movieNode.get("genres");
 
                 if (!genreListNode.isNull() && genreListNode.isArray()) {
-                    List<Genre> genreList = new ArrayList<>();
+                    List<Genre> genreList = new CopyOnWriteArrayList<>();
 
-                    for (JsonNode genreNode : genreListNode) {
+                    StreamSupport.stream(genreListNode.spliterator(), true).forEach(genreNode -> {
                         Genre genre = new Genre();
 
                         if (!genreNode.get("id").isNull()) {
@@ -104,7 +110,7 @@ public class UseJsonNode {
                         }
 
                         genreList.add(genre);
-                    }
+                    });
 
                     movie.setGenres(genreList);
                 }
@@ -113,9 +119,10 @@ public class UseJsonNode {
                 JsonNode productionCompanyListNode = movieNode.get("production_companies");
 
                 if (!productionCompanyListNode.isNull() && productionCompanyListNode.isArray()) {
-                    List<ProductionCompany> productionCompanyList = new ArrayList<>();
+                    List<ProductionCompany> productionCompanyList = new CopyOnWriteArrayList<>();
 
-                    for (JsonNode productionCompanyNode : productionCompanyListNode) {
+                    StreamSupport.stream(productionCompanyListNode.spliterator(), true)
+                            .forEach(productionCompanyNode -> {
                         ProductionCompany productionCompany = new ProductionCompany();
 
                         if (!productionCompanyNode.get("id").isNull()) {
@@ -136,7 +143,7 @@ public class UseJsonNode {
                         }
 
                         productionCompanyList.add(productionCompany);
-                    }
+                    });
 
                     movie.setProductionCompanies(productionCompanyList);
                 }
@@ -145,9 +152,10 @@ public class UseJsonNode {
                 JsonNode productionCountryListNode = movieNode.get("production_countries");
 
                 if (!productionCountryListNode.isNull() && productionCountryListNode.isArray()) {
-                    List<ProductionCountry> productionCountryList = new ArrayList<>();
+                    List<ProductionCountry> productionCountryList = new CopyOnWriteArrayList<>();
 
-                    for (JsonNode productionCountryNode : productionCountryListNode) {
+                    StreamSupport.stream(productionCountryListNode.spliterator(), true)
+                            .forEach(productionCountryNode -> {
                         ProductionCountry productionCountry = new ProductionCountry();
 
                         if (!productionCountryNode.get("iso_3166_1").isNull()) {
@@ -159,13 +167,13 @@ public class UseJsonNode {
                         }
 
                         productionCountryList.add(productionCountry);
-                    }
+                    });
 
                     movie.setProductionCountries(productionCountryList);
                 }
 
                 movies.add(movie);
-            }
+            });
 
             partialMovies.setPartialMovies(movies);
         }
