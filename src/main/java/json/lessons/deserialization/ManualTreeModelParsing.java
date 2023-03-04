@@ -1,10 +1,9 @@
-package json.lessons;
+package json.lessons.deserialization;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import json.JsonProcessingUtils;
 import json.pojos.movies.partialjson.*;
-import json.pojos.partialjson.*;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
@@ -15,13 +14,13 @@ import java.util.List;
 import java.util.Objects;
 
 @Log4j2
-public class UseJsonNode {
+public class ManualTreeModelParsing {
     public void parseJson() throws Exception {
         JsonProcessingUtils.mergePartialJsonToFile(
-                Objects.requireNonNull(UseObjectMapper.class.getResource("/separate_movie_jsons"))
+                Objects.requireNonNull(AutoParsing.class.getResource("/separate_movie_jsons"))
                         .getFile()
                         .replaceFirst("/", ""), // replace /C:/ to C:/
-                Objects.requireNonNull(UseObjectMapper.class.getResource(""))
+                Objects.requireNonNull(AutoParsing.class.getResource(""))
                         .getFile()
                         .replaceFirst("/", ""), // replace /C:/ to C:/
                 "all_movies.json",
@@ -40,7 +39,7 @@ public class UseJsonNode {
         ObjectMapper objectMapper = new ObjectMapper();
 
         JsonNode moviesPartialJsonNode =
-                objectMapper.readTree(UseObjectMapper.class.getResourceAsStream("/%s".formatted(fileName))
+                objectMapper.readTree(AutoParsing.class.getResourceAsStream("/%s".formatted(fileName))
                 );
 
         // create main POJO

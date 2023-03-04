@@ -1,9 +1,8 @@
-package json.lessons;
+package json.lessons.deserialization;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import json.pojos.movies.partialjson.*;
-import json.pojos.partialjson.*;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
@@ -14,7 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.StreamSupport;
 
 @Log4j2
-public class ParallelUseJsonNode {
+public class ManualTreeModelParallelParsing {
     public void parseJson() throws Exception {
         // You may choose readTree when you do not know exact type of the Object
         // or want to preprocess a field before adding it to POJO
@@ -30,7 +29,7 @@ public class ParallelUseJsonNode {
         ObjectMapper objectMapper = new ObjectMapper();
 
         JsonNode moviesPartialJsonNode =
-                objectMapper.readTree(UseObjectMapper.class.getResourceAsStream("/%s".formatted(fileName))
+                objectMapper.readTree(AutoParsing.class.getResourceAsStream("/%s".formatted(fileName))
                 );
 
         // create main POJO

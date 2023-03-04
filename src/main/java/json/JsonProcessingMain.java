@@ -1,8 +1,8 @@
 package json;
 
-import json.lessons.ParallelUseJsonNode;
-import json.lessons.UseJsonNode;
-import json.lessons.UseObjectMapper;
+import json.lessons.deserialization.ManualTreeModelParallelParsing;
+import json.lessons.deserialization.ManualTreeModelParsing;
+import json.lessons.deserialization.AutoParsing;
 
 public class JsonProcessingMain {
     public static void main(String[] args) throws Exception {
@@ -19,13 +19,13 @@ public class JsonProcessingMain {
 //                        .replaceFirst("/", ""), // replace /C:/ to C:/
 //                "all_movies.json",
 //                "movies");
-        UseObjectMapper useObjectMapper = new UseObjectMapper();
-        UseJsonNode useJsonNode = new UseJsonNode();
-        ParallelUseJsonNode parallelUseJsonNode = new ParallelUseJsonNode();
+        AutoParsing autoParsing = new AutoParsing();
+        ManualTreeModelParsing manualTreeModelParsing = new ManualTreeModelParsing();
+        ManualTreeModelParallelParsing manualTreeModelParallelParsing = new ManualTreeModelParallelParsing();
 
-        useObjectMapper.readPartialJsonFromFilePojo();
-        useJsonNode.parseJson();
-        parallelUseJsonNode.parseJson();
+        autoParsing.readPartialJsonFromFilePojo();
+        manualTreeModelParsing.parseJson();
+        manualTreeModelParallelParsing.parseJson();
 
 
     }

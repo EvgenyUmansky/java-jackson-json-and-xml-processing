@@ -1,4 +1,4 @@
-package json.lessons;
+package json.lessons.deserialization;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Log4j2
-public class UseObjectMapper {
+public class AutoParsing {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public void readPartialJsonFromFileMap() throws Exception {
@@ -43,7 +43,7 @@ public class UseObjectMapper {
 
     public void readFromString() throws Exception {
         String movies = JsonProcessingUtils.mergeJsonToString(
-                Objects.requireNonNull(UseObjectMapper.class.getResource("/separate_movie_jsons"))
+                Objects.requireNonNull(AutoParsing.class.getResource("/separate_movie_jsons"))
                         .getFile()
                         .replaceFirst("/", ""), // replace /C:/ to C:/
                 "movies");
@@ -61,14 +61,14 @@ public class UseObjectMapper {
     public Movies readValueSerializeFullMovies(String fileName) throws IOException {
 
         return objectMapper.readValue(
-                UseObjectMapper.class.getResourceAsStream("/%s".formatted(fileName)),
+                AutoParsing.class.getResourceAsStream("/%s".formatted(fileName)),
                 Movies.class);
     }
 
     public Map readValueSerializePartialMoviesToRawMap(String fileName) throws IOException {
 
         Map parsedMovies = objectMapper.readValue(
-                UseObjectMapper.class.getResourceAsStream("/%s".formatted(fileName)),
+                AutoParsing.class.getResourceAsStream("/%s".formatted(fileName)),
                 Map.class);
 
         // String resultFromFile = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(parsedMovies);
@@ -84,7 +84,7 @@ public class UseObjectMapper {
         };
 
         HashMap<String, Object> parsedMovies = objectMapper.readValue(
-                UseObjectMapper.class.getResourceAsStream("/%s".formatted(fileName)),
+                AutoParsing.class.getResourceAsStream("/%s".formatted(fileName)),
                 typeRef);
 
         // String resultFromFile = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(moviesJsonFromFile);
@@ -96,7 +96,7 @@ public class UseObjectMapper {
     public PartialMovies readValueSerializePartialMoviesToPojo(String fileName) throws IOException {
 
         PartialMovies partialMovies = objectMapper.readValue(
-                UseObjectMapper.class.getResourceAsStream("/%s".formatted(fileName)),
+                AutoParsing.class.getResourceAsStream("/%s".formatted(fileName)),
                 PartialMovies.class);
 
         // String resultFromFile = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(moviesJsonFromFile);

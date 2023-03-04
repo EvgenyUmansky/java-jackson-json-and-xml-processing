@@ -29,6 +29,12 @@ public class JsonProcessingUtils {
             for (Path path : stream) {
                 if (!Files.isDirectory(path) && FilenameUtils.getExtension(path.toString()).equals("json")) {
                     JsonNode json = objectMapper.readTree(Files.readString(path, StandardCharsets.UTF_8));
+
+                    // Can read JSON from many sources
+                    // https://stackabuse.com/definitive-guide-to-jackson-objectmapper-serialize-and-deserialize-java-objects/
+                    // JsonNode json = objectMapper.readTree(File);
+                    // JsonNode json = objectMapper.readTree(String);
+                    // JsonNode json = objectMapper.readTree(URL);
                     arrayNode.add(json);
                 }
             }
@@ -62,6 +68,22 @@ public class JsonProcessingUtils {
             for (Path path : stream) {
                 if (!Files.isDirectory(path) && FilenameUtils.getExtension(path.toString()).equals("json")) {
                     JsonNode json = objectMapper.readTree(Files.readString(path, StandardCharsets.UTF_8));
+
+                    ((ObjectNode) json).remove("adult");
+                    ((ObjectNode) json).remove("backdrop_path");
+                    ((ObjectNode) json).remove("belongs_to_collection");
+                    ((ObjectNode) json).remove("homepage");
+                    ((ObjectNode) json).remove("imdb_id");
+                    ((ObjectNode) json).remove("original_title");
+                    ((ObjectNode) json).remove("poster_path");
+                    ((ObjectNode) json).remove("revenue");
+                    ((ObjectNode) json).remove("runtime");
+                    ((ObjectNode) json).remove("spoken_languages");
+                    ((ObjectNode) json).remove("tagline");
+                    ((ObjectNode) json).remove("video");
+                    ((ObjectNode) json).remove("vote_average");
+                    ((ObjectNode) json).remove("vote_count");
+
                     arrayNode.add(json);
                 }
             }
