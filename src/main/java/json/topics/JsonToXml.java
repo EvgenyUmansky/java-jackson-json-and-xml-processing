@@ -1,4 +1,4 @@
-package json.lessons;
+package json.topics;
 
 public class JsonToXml {
 }

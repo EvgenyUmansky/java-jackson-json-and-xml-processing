@@ -1,8 +1,8 @@
 package json;
 
-import json.lessons.deserialization.ManualTreeModelParallelParsing;
-import json.lessons.deserialization.ManualTreeModelParsing;
-import json.lessons.deserialization.AutoParsing;
+import json.topics.deserialization.ManualTreeModelParallelParsing;
+import json.topics.deserialization.ManualTreeModelParsing;
+import json.topics.deserialization.AutoParsing;
 
 public class JsonProcessingMain {
     public static void main(String[] args) throws Exception {

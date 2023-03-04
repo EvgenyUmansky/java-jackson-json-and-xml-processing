@@ -1,4 +1,4 @@
-package json.lessons.deserialization;
+package json.topics.deserialization;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

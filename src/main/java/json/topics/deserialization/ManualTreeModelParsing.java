@@ -1,31 +1,41 @@
-package json.lessons.deserialization;
+package json.topics.deserialization;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import json.JsonProcessingUtils;
 import json.pojos.movies.partialjson.*;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.StreamSupport;
+import java.util.Objects;
 
 @Log4j2
-public class ManualTreeModelParallelParsing {
+public class ManualTreeModelParsing {
     public void parseJson() throws Exception {
+        JsonProcessingUtils.mergePartialJsonToFile(
+                Objects.requireNonNull(AutoParsing.class.getResource("/separate_movie_jsons"))
+                        .getFile()
+                        .replaceFirst("/", ""), // replace /C:/ to C:/
+                Objects.requireNonNull(AutoParsing.class.getResource(""))
+                        .getFile()
+                        .replaceFirst("/", ""), // replace /C:/ to C:/
+                "all_movies.json",
+                "movies");
+
         // You may choose readTree when you do not know exact type of the Object
         // or want to preprocess a field before adding it to POJO
         long start = System.currentTimeMillis();
-        PartialMovies partialMovies = readTreeParallelSerializePartialMovies("all_movies.json");
+        PartialMovies partialMovies = readTreeSequentialSerializePartialMovies("all_movies.json");
         long end = System.currentTimeMillis();
 
-        System.out.printf("[UseJsonNode] manual stream parallel parsing with ObjectMapper readTree runtime: %d ms%n",
-                end - start);
+        System.out.printf("[UseJsonNode] manual sequential parsing with ObjectMapper readTree runtime: %d ms%n", end - start);
     }
 
-    public PartialMovies readTreeParallelSerializePartialMovies(String fileName) throws IOException, ParseException {
+    public PartialMovies readTreeSequentialSerializePartialMovies(String fileName) throws IOException, ParseException {
         ObjectMapper objectMapper = new ObjectMapper();
 
         JsonNode moviesPartialJsonNode =
@@ -38,9 +48,9 @@ public class ManualTreeModelParallelParsing {
         JsonNode moviesNode = moviesPartialJsonNode.get("movies");
 
         if (!moviesNode.isNull() && moviesNode.isArray()) {
-            List<PartialMovie> movies = new CopyOnWriteArrayList<>();
+            List<PartialMovie> movies = new ArrayList<>();
 
-            StreamSupport.stream(moviesNode.spliterator(), true).forEach(movieNode -> {
+            for (JsonNode movieNode : moviesNode) {
                 PartialMovie movie = new PartialMovie();
 
                 // ############ FLAT FIELDS ############
@@ -65,11 +75,7 @@ public class ManualTreeModelParallelParsing {
                 }
 
                 if (!movieNode.get("release_date").isNull()) {
-                    try {
-                        movie.setReleaseDate(new SimpleDateFormat("yyyy-MM-dd").parse(movieNode.get("release_date").asText()));
-                    } catch (ParseException e) {
-                        throw new RuntimeException(e);
-                    }
+                    movie.setReleaseDate(new SimpleDateFormat("yyyy-MM-dd").parse(movieNode.get("release_date").asText()));
                 }
 
                 if (!movieNode.get("status").isNull()) {
@@ -84,9 +90,9 @@ public class ManualTreeModelParallelParsing {
                 JsonNode genreListNode = movieNode.get("genres");
 
                 if (!genreListNode.isNull() && genreListNode.isArray()) {
-                    List<Genre> genreList = new CopyOnWriteArrayList<>();
+                    List<Genre> genreList = new ArrayList<>();
 
-                    StreamSupport.stream(genreListNode.spliterator(), true).forEach(genreNode -> {
+                    for (JsonNode genreNode : genreListNode) {
                         Genre genre = new Genre();
 
                         if (!genreNode.get("id").isNull()) {
@@ -98,7 +104,7 @@ public class ManualTreeModelParallelParsing {
                         }
 
                         genreList.add(genre);
-                    });
+                    }
 
                     movie.setGenres(genreList);
                 }
@@ -107,31 +113,30 @@ public class ManualTreeModelParallelParsing {
                 JsonNode productionCompanyListNode = movieNode.get("production_companies");
 
                 if (!productionCompanyListNode.isNull() && productionCompanyListNode.isArray()) {
-                    List<ProductionCompany> productionCompanyList = new CopyOnWriteArrayList<>();
+                    List<ProductionCompany> productionCompanyList = new ArrayList<>();
 
-                    StreamSupport.stream(productionCompanyListNode.spliterator(), true)
-                            .forEach(productionCompanyNode -> {
-                                ProductionCompany productionCompany = new ProductionCompany();
+                    for (JsonNode productionCompanyNode : productionCompanyListNode) {
+                        ProductionCompany productionCompany = new ProductionCompany();
 
-                                if (!productionCompanyNode.get("id").isNull()) {
-                                    productionCompany.setProductionCompanyId(productionCompanyNode.get("id").asInt());
-                                }
+                        if (!productionCompanyNode.get("id").isNull()) {
+                            productionCompany.setProductionCompanyId(productionCompanyNode.get("id").asInt());
+                        }
 
-                                if (!productionCompanyNode.get("name").isNull()) {
-                                    productionCompany.setProductionCompanyName(productionCompanyNode.get("name").asText());
-                                }
+                        if (!productionCompanyNode.get("name").isNull()) {
+                            productionCompany.setProductionCompanyName(productionCompanyNode.get("name").asText());
+                        }
 
-                                // can be null
-                                if (!productionCompanyNode.get("logo_path").isNull()) {
-                                    productionCompany.setLogoPath(productionCompanyNode.get("logo_path").asText());
-                                }
+                        // can be null
+                        if (!productionCompanyNode.get("logo_path").isNull()) {
+                            productionCompany.setLogoPath(productionCompanyNode.get("logo_path").asText());
+                        }
 
-                                if (!productionCompanyNode.get("origin_country").isNull()) {
-                                    productionCompany.setOriginCountry(productionCompanyNode.get("origin_country").asText());
-                                }
+                        if (!productionCompanyNode.get("origin_country").isNull()) {
+                            productionCompany.setOriginCountry(productionCompanyNode.get("origin_country").asText());
+                        }
 
-                                productionCompanyList.add(productionCompany);
-                            });
+                        productionCompanyList.add(productionCompany);
+                    }
 
                     movie.setProductionCompanies(productionCompanyList);
                 }
@@ -140,28 +145,27 @@ public class ManualTreeModelParallelParsing {
                 JsonNode productionCountryListNode = movieNode.get("production_countries");
 
                 if (!productionCountryListNode.isNull() && productionCountryListNode.isArray()) {
-                    List<ProductionCountry> productionCountryList = new CopyOnWriteArrayList<>();
+                    List<ProductionCountry> productionCountryList = new ArrayList<>();
 
-                    StreamSupport.stream(productionCountryListNode.spliterator(), true)
-                            .forEach(productionCountryNode -> {
-                                ProductionCountry productionCountry = new ProductionCountry();
+                    for (JsonNode productionCountryNode : productionCountryListNode) {
+                        ProductionCountry productionCountry = new ProductionCountry();
 
-                                if (!productionCountryNode.get("iso_3166_1").isNull()) {
-                                    productionCountry.setCountryCode(productionCountryNode.get("iso_3166_1").asText());
-                                }
+                        if (!productionCountryNode.get("iso_3166_1").isNull()) {
+                            productionCountry.setCountryCode(productionCountryNode.get("iso_3166_1").asText());
+                        }
 
-                                if (!productionCountryNode.get("name").isNull()) {
-                                    productionCountry.setCountryName(productionCountryNode.get("name").asText());
-                                }
+                        if (!productionCountryNode.get("name").isNull()) {
+                            productionCountry.setCountryName(productionCountryNode.get("name").asText());
+                        }
 
-                                productionCountryList.add(productionCountry);
-                            });
+                        productionCountryList.add(productionCountry);
+                    }
 
                     movie.setProductionCountries(productionCountryList);
                 }
 
                 movies.add(movie);
-            });
+            }
 
             partialMovies.setPartialMovies(movies);
         }

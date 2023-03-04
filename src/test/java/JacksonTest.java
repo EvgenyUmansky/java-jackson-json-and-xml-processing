@@ -1,5 +1,5 @@
-import json.lessons.deserialization.*;
-import json.lessons.serialization.Serialization;
+import json.topics.deserialization.*;
+import json.topics.serialization.AutoSerialization;
 import json.pojos.movies.partialjson.PartialMovies;
 import org.junit.jupiter.api.Test;
 
@@ -74,28 +74,28 @@ public class JacksonTest {
                         "ObjectMapper Tree Model parsing runtime: %d ms%n",
                 end - start); // 14 ms
 
-        // ######## Serialization / Marshalling / Java POJO -> JSON ########
+        // ######## AutoSerialization / Marshalling / Java POJO -> JSON ########
         System.out.println();
-        System.out.println("######## Serialization / Marshalling / Java POJO -> JSON ########");
+        System.out.println("######## AutoSerialization / Marshalling / Java POJO -> JSON ########");
 
-        // Simple Serialization
-        Serialization serialization = new Serialization();
+        // Simple AutoSerialization
+        AutoSerialization autoSerialization = new AutoSerialization();
 
         PartialMovies partialMovies = manualTreeModelParallelParsing.readTreeParallelSerializePartialMovies("all_movies.json");
 
         start = System.currentTimeMillis();
-        serialization.simpleSerialization(partialMovies);
+        autoSerialization.simpleSerialization(partialMovies);
         end = System.currentTimeMillis();
 
-        System.out.printf("[Serialization] Serialization auto parsing ObjectMapper writeValueAsString runtime: %d ms%n",
+        System.out.printf("[AutoSerialization] AutoSerialization auto parsing ObjectMapper writeValueAsString runtime: %d ms%n",
                 end - start);
 
-        // Tree Model Serialization
+        // Tree Model AutoSerialization
         start = System.currentTimeMillis();
-        serialization.treeModelSerialization(partialMovies);
+        autoSerialization.treeModelSerialization(partialMovies);
         end = System.currentTimeMillis();
 
-        System.out.printf("[Serialization] Serialization auto parsing ObjectMapper writeValueAsString runtime: %d ms%n",
+        System.out.printf("[AutoSerialization] AutoSerialization auto parsing ObjectMapper writeValueAsString runtime: %d ms%n",
                 end - start);
     }
 }
