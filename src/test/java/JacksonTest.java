@@ -1,6 +1,8 @@
 import json.topics.deserialization.*;
 import json.topics.serialization.AutoSerialization;
 import json.pojos.movies.partialjson.PartialMovies;
+import json.topics.serialization.JacksonStreamingApiSerialization;
+import json.topics.serialization.JacksonStreamingApiWithTreeModelSerialization;
 import org.junit.jupiter.api.Test;
 
 public class JacksonTest {
@@ -13,6 +15,8 @@ public class JacksonTest {
         ManualTreeModelParallelParsing manualTreeModelParallelParsing = new ManualTreeModelParallelParsing();
         JacksonStreamingApiParsing jacksonStreamingApiParsing = new JacksonStreamingApiParsing();
         JacksonStreamingApiWithTreeModelParsing JacksonStreamingApiWithTreeModelParsing = new JacksonStreamingApiWithTreeModelParsing();
+        JacksonStreamingApiSerialization jacksonStreamingApiSerialization = new JacksonStreamingApiSerialization();
+        JacksonStreamingApiWithTreeModelSerialization jacksonStreamingApiWithTreeModelSerialization = new JacksonStreamingApiWithTreeModelSerialization();
 
         // ######## Deserialization / Unmarshalling / Parsing / JSON -> Java POJO ########
         System.out.println("######## Deserialization / Unmarshalling / Parsing / JSON -> Java POJO ########");
@@ -88,14 +92,30 @@ public class JacksonTest {
         end = System.currentTimeMillis();
 
         System.out.printf("[AutoSerialization] AutoSerialization auto parsing ObjectMapper writeValueAsString runtime: %d ms%n",
-                end - start);
+                end - start); // 58 ms
 
         // Tree Model AutoSerialization
         start = System.currentTimeMillis();
         autoSerialization.treeModelSerialization(partialMovies);
         end = System.currentTimeMillis();
 
-        System.out.printf("[AutoSerialization] AutoSerialization auto parsing ObjectMapper writeValueAsString runtime: %d ms%n",
-                end - start);
+        System.out.printf("[AutoSerialization] AutoSerialization tree model parsing ObjectMapper writeValueAsString runtime: %d ms%n",
+                end - start); // 44 ms
+
+        // Jackson Streaming API Manual Serialization
+        start = System.currentTimeMillis();
+        jacksonStreamingApiSerialization.streamSerializeMovies(partialMovies);
+        end = System.currentTimeMillis();
+
+        System.out.printf("[JacksonStreamingApiSerialization] Jackson Streaming API manual serialization runtime: %d ms%n",
+                end - start); // 15 ms
+
+        // Jackson Streaming API Manual Serialization
+        start = System.currentTimeMillis();
+        jacksonStreamingApiWithTreeModelSerialization.streamTreeModelSerializeMovies(partialMovies);
+        end = System.currentTimeMillis();
+
+        System.out.printf("[JacksonStreamingApiWithTreeModelSerialization] Jackson Streaming API tree model serialization runtime: %d ms%n",
+                end - start); // 19 ms
     }
 }

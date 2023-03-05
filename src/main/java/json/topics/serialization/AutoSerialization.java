@@ -16,7 +16,6 @@ public class AutoSerialization {
     }
 
     public String treeModelSerialization(PartialMovies partialMovies) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
 
         JsonNode moviesPartialJsonNode =
                 objectMapper.valueToTree(partialMovies);
