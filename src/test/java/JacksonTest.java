@@ -2,7 +2,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import json.pojos.movies.Movies;
-import json.topics.MovieViews;
+import json.topics.views.MovieViews;
 import json.topics.deserialization.*;
 import json.topics.serialization.AutoSerialization;
 import json.topics.serialization.JacksonStreamingApiSerialization;

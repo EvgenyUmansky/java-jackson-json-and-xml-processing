@@ -1,4 +1,4 @@
-package json.topics;
+package json.topics.views;
 
 public class MovieViews {
     public interface Public {

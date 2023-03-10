@@ -6,11 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import json.topics.MovieViews;
-import json.topics.custom.deserializers.MovieDeserializer;
+import json.topics.views.MovieViews;
 import json.topics.custom.deserializers.MovieOverviewDeserializer;
 import json.topics.custom.serializers.MovieOverviewSerializer;
-import json.topics.custom.serializers.MovieSerializer;
 import lombok.Data;
 import lombok.ToString;
 

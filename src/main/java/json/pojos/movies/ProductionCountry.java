@@ -3,7 +3,7 @@ package json.pojos.movies;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
-import json.topics.MovieViews;
+import json.topics.views.MovieViews;
 import lombok.Data;
 import lombok.ToString;
 
