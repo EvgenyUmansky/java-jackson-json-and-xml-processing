@@ -6,9 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import json.topics.MovieDeserializer;
-import json.topics.MovieSerializer;
 import json.topics.MovieViews;
+import json.topics.custom.deserializers.MovieDeserializer;
+import json.topics.custom.deserializers.MovieOverviewDeserializer;
+import json.topics.custom.serializers.MovieOverviewSerializer;
+import json.topics.custom.serializers.MovieSerializer;
 import lombok.Data;
 import lombok.ToString;
 
@@ -18,9 +20,9 @@ import java.util.List;
 
 @Data
 @ToString
-@JsonSerialize(using = MovieSerializer.class)
-@JsonIgnoreProperties
+// @JsonSerialize(using = MovieSerializer.class)
 // @JsonDeserialize(using = MovieDeserializer.class)
+@JsonIgnoreProperties
 public class Movie implements Serializable {
 
     // talk / overview JsonProperty with all its attributes
@@ -43,8 +45,8 @@ public class Movie implements Serializable {
     @JsonProperty("original_language")
     String originalLanguage;
 
-//    @JsonDeserialize(using = MovieDeserializer.class)
-//    @JsonSerialize(using = MovieSerializer.class)
+    @JsonDeserialize(using = MovieOverviewDeserializer.class)
+    @JsonSerialize(using = MovieOverviewSerializer.class)
     @JsonView({MovieViews.Overview.class})
     @JsonProperty("overview")
     String overview;
