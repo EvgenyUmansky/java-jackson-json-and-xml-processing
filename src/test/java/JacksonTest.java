@@ -1,3 +1,8 @@
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import json.topics.MovieViews;
 import json.topics.deserialization.*;
 import json.topics.serialization.AutoSerialization;
 import json.pojos.movies.partialjson.PartialMovies;
@@ -117,5 +122,21 @@ public class JacksonTest {
 
         System.out.printf("[JacksonStreamingApiWithTreeModelSerialization] Jackson Streaming API tree model serialization runtime: %d ms%n",
                 end - start); // 19 ms
+    }
+
+    @Test
+    public void viewTest() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
+//        DeserializationConfig deserializationConfig = objectMapper.getDeserializationConfig().with(MapperFeature.DEFAULT_VIEW_INCLUSION);
+//        objectMapper.setConfig(deserializationConfig);
+
+        // Jackson Streaming API: Tree Model parsing
+        PartialMovies partialMovies = objectMapper.readerWithView(MovieViews.ProductionCountries.class).readValue(
+                AutoParsing.class.getResourceAsStream("/%s".formatted("all_movies.json")),
+                PartialMovies.class);
+
+        String resultFromFile = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(partialMovies);
+        System.out.println(resultFromFile);
     }
 }
