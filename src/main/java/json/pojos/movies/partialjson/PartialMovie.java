@@ -3,6 +3,7 @@ package json.pojos.movies.partialjson;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import json.pojos.movies.partialjson.Collection;
 import lombok.Data;
 import lombok.ToString;
 
@@ -21,6 +22,9 @@ public class PartialMovie implements Serializable {
 
     @JsonProperty("budget")
     Integer budget;
+
+    @JsonProperty("belongs_to_collection")
+    Collection belongsToCollection;
 
     @JsonProperty("genres")
     List<Genre> genres;

@@ -52,6 +52,10 @@ public class JacksonStreamingApiParsing {
                         case "budget":
                             partialMovie.setBudget(jsonParser.getIntValue());
                             break;
+                        case "belongs_to_collection":
+                            Collection collection = getCollection(jsonParser);
+                            partialMovie.setBelongsToCollection(collection);
+                            break;
                         case "original_language":
                             partialMovie.setOriginalLanguage(jsonParser.getText());
                             break;
@@ -95,6 +99,46 @@ public class JacksonStreamingApiParsing {
         partialMovies.setPartialMovies(partialMovieList);
 
         return partialMovies;
+    }
+
+    private Collection getCollection(JsonParser jsonParser) throws IOException {
+
+        if (jsonParser.currentToken() == JsonToken.VALUE_NULL) {
+            return null;
+        }
+        // Check the first token
+        if (jsonParser.currentToken() != JsonToken.START_OBJECT) {
+            throw new IllegalStateException("Expected content to be an object");
+        }
+
+        Collection collection = new Collection();
+
+        // Iterate over the tokens until the end of the array
+        while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
+
+            // Get the current property name
+            String property = jsonParser.getCurrentName();
+
+            // Move to the corresponding value
+            jsonParser.nextToken();
+
+            switch (property) {
+                case "id":
+                    collection.setCollectionId(jsonParser.getIntValue());
+                    break;
+                case "name":
+                    collection.setCollectionName(jsonParser.getText());
+                    break;
+                case "poster_path":
+                    collection.setPosterPath(jsonParser.getText());
+                    break;
+                case "backdrop_path":
+                    collection.setBackdropPath(jsonParser.getText());
+                    break;
+            }
+        }
+
+        return collection;
     }
 
     private List<Genre> getGenreList(JsonParser jsonParser) throws IOException {

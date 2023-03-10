@@ -71,7 +71,6 @@ public class JsonProcessingUtils {
 
                     ((ObjectNode) json).remove("adult");
                     ((ObjectNode) json).remove("backdrop_path");
-                    ((ObjectNode) json).remove("belongs_to_collection");
                     ((ObjectNode) json).remove("homepage");
                     ((ObjectNode) json).remove("imdb_id");
                     ((ObjectNode) json).remove("original_title");
@@ -113,7 +112,6 @@ public class JsonProcessingUtils {
 
                     ((ObjectNode) json).remove("adult");
                     ((ObjectNode) json).remove("backdrop_path");
-                    ((ObjectNode) json).remove("belongs_to_collection");
                     ((ObjectNode) json).remove("homepage");
                     ((ObjectNode) json).remove("imdb_id");
                     ((ObjectNode) json).remove("original_title");

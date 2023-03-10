@@ -80,6 +80,33 @@ public class ManualTreeModelParallelParsing {
                     movie.setTitle(movieNode.get("title").asText());
                 }
 
+                // OneToOne relationship
+                // ############ COLLECTION ############
+                JsonNode collectionNode = movieNode.get("belongs_to_collection");
+
+                if (collectionNode != null && !collectionNode.isNull()) {
+                    Collection collection = new Collection();
+
+                    if(!collectionNode.get("id").isNull()) {
+                        collection.setCollectionId(collectionNode.get("id").asInt());
+                    }
+
+                    if(!collectionNode.get("name").isNull()) {
+                        collection.setCollectionName(collectionNode.get("name").asText());
+                    }
+
+                    if(!collectionNode.get("id").isNull()) {
+                        collection.setPosterPath(collectionNode.get("poster_path").asText());
+                    }
+
+                    if(!collectionNode.get("id").isNull()) {
+                        collection.setBackdropPath(collectionNode.get("backdrop_path").asText());
+                    }
+
+                    movie.setBelongsToCollection(collection);
+                }
+
+                // OneToMany relationship
                 // ############ GENRES ############
                 JsonNode genreListNode = movieNode.get("genres");
 
