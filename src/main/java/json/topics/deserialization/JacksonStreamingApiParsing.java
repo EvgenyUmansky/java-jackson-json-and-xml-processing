@@ -3,7 +3,7 @@ package json.topics.deserialization;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
-import json.pojos.movies.partialjson.*;
+import json.pojos.movies.*;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -12,9 +12,9 @@ import java.util.List;
 
 
 public class JacksonStreamingApiParsing {
-    public PartialMovies readStreamMovies(String fileName) throws Exception {
-        PartialMovies partialMovies = new PartialMovies();
-        List<PartialMovie> partialMovieList = new ArrayList<>();
+    public Movies readStreamMovies(String fileName) throws Exception {
+        Movies movies = new Movies();
+        List<Movie> movieList = new ArrayList<>();
 
         // Create a factory for creating a JsonParser instance
         JsonFactory jsonFactory = new JsonFactory();
@@ -35,7 +35,7 @@ public class JacksonStreamingApiParsing {
                     throw new IllegalStateException("Expected content to be an object");
                 }
 
-                PartialMovie partialMovie = new PartialMovie();
+                Movie movie = new Movie();
                 while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
 
                     // Get the current property name
@@ -47,48 +47,48 @@ public class JacksonStreamingApiParsing {
                     // Evaluate each property name and extract the value
                     switch (property) {
                         case "id":
-                            partialMovie.setMovieId(jsonParser.getIntValue());
+                            movie.setMovieId(jsonParser.getIntValue());
                             break;
                         case "budget":
-                            partialMovie.setBudget(jsonParser.getIntValue());
+                            movie.setBudget(jsonParser.getIntValue());
                             break;
                         case "belongs_to_collection":
                             Collection collection = getCollection(jsonParser);
-                            partialMovie.setBelongsToCollection(collection);
+                            movie.setBelongsToCollection(collection);
                             break;
                         case "original_language":
-                            partialMovie.setOriginalLanguage(jsonParser.getText());
+                            movie.setOriginalLanguage(jsonParser.getText());
                             break;
                         case "overview":
-                            partialMovie.setOverview(jsonParser.getText());
+                            movie.setOverview(jsonParser.getText());
                             break;
                         case "release_date":
-                            partialMovie.setReleaseDate(new SimpleDateFormat("yyyy-MM-dd").parse(jsonParser.getText()));
+                            movie.setReleaseDate(new SimpleDateFormat("yyyy-MM-dd").parse(jsonParser.getText()));
                             break;
                         case "status":
-                            partialMovie.setStatus(jsonParser.getText());
+                            movie.setStatus(jsonParser.getText());
                             break;
                         case "title":
-                            partialMovie.setTitle(jsonParser.getText());
+                            movie.setTitle(jsonParser.getText());
                             break;
                         case "genres":
                             List<Genre> genreList = getGenreList(jsonParser);
-                            partialMovie.setGenres(genreList);
+                            movie.setGenres(genreList);
                             break;
                         case "production_companies":
                             List<ProductionCompany> productionCompanyList = getProductionCompanyList(jsonParser);
-                            partialMovie.setProductionCompanies(productionCompanyList);
+                            movie.setProductionCompanies(productionCompanyList);
                             break;
                         case "production_countries":
                             List<ProductionCountry> productionCountryList = getProductionCountryList(jsonParser);
-                            partialMovie.setProductionCountries(productionCountryList);
+                            movie.setProductionCountries(productionCountryList);
                             break;
                         // Unknown properties are ignored
                     }
 
 
                 }
-                partialMovieList.add(partialMovie);
+                movieList.add(movie);
 
 
             }
@@ -96,9 +96,9 @@ public class JacksonStreamingApiParsing {
             throw new Exception(e);
         }
 
-        partialMovies.setPartialMovies(partialMovieList);
+        movies.setMovies(movieList);
 
-        return partialMovies;
+        return movies;
     }
 
     private Collection getCollection(JsonParser jsonParser) throws IOException {

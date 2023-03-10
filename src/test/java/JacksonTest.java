@@ -1,11 +1,10 @@
-import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import json.pojos.movies.Movies;
 import json.topics.MovieViews;
 import json.topics.deserialization.*;
 import json.topics.serialization.AutoSerialization;
-import json.pojos.movies.partialjson.PartialMovies;
 import json.topics.serialization.JacksonStreamingApiSerialization;
 import json.topics.serialization.JacksonStreamingApiWithTreeModelSerialization;
 import org.junit.jupiter.api.Test;
@@ -90,10 +89,10 @@ public class JacksonTest {
         // Simple AutoSerialization
         AutoSerialization autoSerialization = new AutoSerialization();
 
-        PartialMovies partialMovies = manualTreeModelParallelParsing.readTreeParallelSerializePartialMovies("all_movies.json");
+        Movies movies = manualTreeModelParallelParsing.readTreeParallelSerializePartialMovies("all_movies.json");
 
         start = System.currentTimeMillis();
-        autoSerialization.simpleSerialization(partialMovies);
+        autoSerialization.simpleSerialization(movies);
         end = System.currentTimeMillis();
 
         System.out.printf("[AutoSerialization] AutoSerialization auto parsing ObjectMapper writeValueAsString runtime: %d ms%n",
@@ -101,7 +100,7 @@ public class JacksonTest {
 
         // Tree Model AutoSerialization
         start = System.currentTimeMillis();
-        autoSerialization.treeModelSerialization(partialMovies);
+        autoSerialization.treeModelSerialization(movies);
         end = System.currentTimeMillis();
 
         System.out.printf("[AutoSerialization] AutoSerialization tree model parsing ObjectMapper writeValueAsString runtime: %d ms%n",
@@ -109,7 +108,7 @@ public class JacksonTest {
 
         // Jackson Streaming API Manual Serialization
         start = System.currentTimeMillis();
-        jacksonStreamingApiSerialization.streamSerializeMovies(partialMovies);
+        jacksonStreamingApiSerialization.streamSerializeMovies(movies);
         end = System.currentTimeMillis();
 
         System.out.printf("[JacksonStreamingApiSerialization] Jackson Streaming API manual serialization runtime: %d ms%n",
@@ -117,7 +116,7 @@ public class JacksonTest {
 
         // Jackson Streaming API Manual Serialization
         start = System.currentTimeMillis();
-        jacksonStreamingApiWithTreeModelSerialization.streamTreeModelSerializeMovies(partialMovies);
+        jacksonStreamingApiWithTreeModelSerialization.streamTreeModelSerializeMovies(movies);
         end = System.currentTimeMillis();
 
         System.out.printf("[JacksonStreamingApiWithTreeModelSerialization] Jackson Streaming API tree model serialization runtime: %d ms%n",
@@ -132,11 +131,40 @@ public class JacksonTest {
 //        objectMapper.setConfig(deserializationConfig);
 
         // Jackson Streaming API: Tree Model parsing
-        PartialMovies partialMovies = objectMapper.readerWithView(MovieViews.ProductionCountries.class).readValue(
+        Movies movies = objectMapper.readerWithView(MovieViews.Public.class).readValue(
                 AutoParsing.class.getResourceAsStream("/%s".formatted("all_movies.json")),
-                PartialMovies.class);
+                Movies.class);
 
-        String resultFromFile = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(partialMovies);
+        String resultFromFile = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(movies);
         System.out.println(resultFromFile);
+    }
+
+    @Test
+    public void customDeserializerTest() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        // Jackson Streaming API: Tree Model parsing
+        Movies movies = objectMapper.readValue(
+                AutoParsing.class.getResourceAsStream("/%s".formatted("all_movies.json")),
+                Movies.class);
+
+        String resultFromFile = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(movies);
+        System.out.println(resultFromFile);
+    }
+
+    @Test
+    public void customSerializerTest() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        // Jackson Streaming API: Tree Model parsing
+        Movies movies = objectMapper.readValue(
+                AutoParsing.class.getResourceAsStream("/%s".formatted("all_movies.json")),
+                Movies.class);
+
+
+        JsonNode moviesPartialJsonNode =
+                objectMapper.valueToTree(movies);
+
+        System.out.println(moviesPartialJsonNode.toString());
     }
 }

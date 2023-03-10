@@ -2,23 +2,23 @@ package json.topics.serialization;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import json.pojos.movies.partialjson.*;
+import json.pojos.movies.Movies;
 
 import java.io.IOException;
 
 public class AutoSerialization {
     ObjectMapper objectMapper = new ObjectMapper();
 
-    public String simpleSerialization(PartialMovies partialMovies) throws IOException {
-        String serializedMovies = objectMapper.writeValueAsString(partialMovies);
+    public String simpleSerialization(Movies movies) throws IOException {
+        String serializedMovies = objectMapper.writeValueAsString(movies);
 
         return serializedMovies;
     }
 
-    public String treeModelSerialization(PartialMovies partialMovies) throws IOException {
+    public String treeModelSerialization(Movies movies) throws IOException {
 
         JsonNode moviesPartialJsonNode =
-                objectMapper.valueToTree(partialMovies);
+                objectMapper.valueToTree(movies);
 
         return moviesPartialJsonNode.toString();
     }

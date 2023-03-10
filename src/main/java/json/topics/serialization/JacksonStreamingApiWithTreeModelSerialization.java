@@ -3,8 +3,8 @@ package json.topics.serialization;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import json.pojos.movies.partialjson.PartialMovie;
-import json.pojos.movies.partialjson.PartialMovies;
+import json.pojos.movies.Movie;
+import json.pojos.movies.Movies;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,12 +15,12 @@ public class JacksonStreamingApiWithTreeModelSerialization {
     // Create and configure an ObjectMapper instance
     ObjectMapper objectMapper = new ObjectMapper();
 
-    public void streamTreeModelSerializeMovies(PartialMovies partialMovies) throws IOException {
+    public void streamTreeModelSerializeMovies(Movies partialMovies) throws IOException {
 
         // Create a factory which will be used for creating a JsonGenerator instance
         JsonFactory jsonFactory = new JsonFactory();
 
-        List<PartialMovie> movies = partialMovies.getPartialMovies();
+        List<Movie> movies = partialMovies.getMovies();
 
         // Create a JsonGenerator instance
         try (JsonGenerator jsonGenerator = jsonFactory.createGenerator(new FileOutputStream("stream_tree_serialized_movies.json"))) {
@@ -37,7 +37,7 @@ public class JacksonStreamingApiWithTreeModelSerialization {
             jsonGenerator.writeStartArray();
 
             // Iterate over the contacts and write each contact as a JSON object
-            for (PartialMovie movie : movies) {
+            for (Movie movie : movies) {
                 objectMapper.writeValue(jsonGenerator, movie);
             }
 

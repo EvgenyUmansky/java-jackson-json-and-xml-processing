@@ -1,17 +1,17 @@
-package json.pojos.movies.fulljson;
+package json.pojos.movies;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-
-import java.io.Serializable;
+import lombok.ToString;
 
 @Data
+@ToString
 @JsonIgnoreProperties
-public class Language implements Serializable {
-    @JsonProperty("iso_639_1")
-    String languageCode;
+public class Genre {
+    @JsonProperty("id")
+    Integer genreId;
 
     @JsonProperty("name")
-    String languageName;
+    String genreName;
 }

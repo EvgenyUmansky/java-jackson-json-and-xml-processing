@@ -3,7 +3,7 @@ package json.topics.deserialization;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import json.JsonProcessingUtils;
-import json.pojos.movies.partialjson.*;
+import json.pojos.movies.*;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
@@ -29,13 +29,13 @@ public class ManualTreeModelParsing {
         // You may choose readTree when you do not know exact type of the Object
         // or want to preprocess a field before adding it to POJO
         long start = System.currentTimeMillis();
-        PartialMovies partialMovies = readTreeSequentialSerializePartialMovies("all_movies.json");
+        Movies movies = readTreeSequentialSerializePartialMovies("all_movies.json");
         long end = System.currentTimeMillis();
 
         System.out.printf("[UseJsonNode] manual sequential parsing with ObjectMapper readTree runtime: %d ms%n", end - start);
     }
 
-    public PartialMovies readTreeSequentialSerializePartialMovies(String fileName) throws IOException, ParseException {
+    public Movies readTreeSequentialSerializePartialMovies(String fileName) throws IOException, ParseException {
         ObjectMapper objectMapper = new ObjectMapper();
 
         JsonNode moviesPartialJsonNode =
@@ -43,15 +43,15 @@ public class ManualTreeModelParsing {
                 );
 
         // create main POJO
-        PartialMovies partialMovies = new PartialMovies();
+        Movies partialMovies = new Movies();
 
         JsonNode moviesNode = moviesPartialJsonNode.get("movies");
 
         if (!moviesNode.isNull() && moviesNode.isArray()) {
-            List<PartialMovie> movies = new ArrayList<>();
+            List<Movie> movies = new ArrayList<>();
 
             for (JsonNode movieNode : moviesNode) {
-                PartialMovie movie = new PartialMovie();
+                Movie movie = new Movie();
 
                 // ############ FLAT FIELDS ############
                 if (!movieNode.get("id").isNull()) {
@@ -116,19 +116,19 @@ public class ManualTreeModelParsing {
                 if (collectionNode != null && !collectionNode.isNull()) {
                     Collection collection = new Collection();
 
-                    if(!collectionNode.get("id").isNull()) {
+                    if (!collectionNode.get("id").isNull()) {
                         collection.setCollectionId(collectionNode.get("id").asInt());
                     }
 
-                    if(!collectionNode.get("name").isNull()) {
+                    if (!collectionNode.get("name").isNull()) {
                         collection.setCollectionName(collectionNode.get("name").asText());
                     }
 
-                    if(!collectionNode.get("id").isNull()) {
+                    if (!collectionNode.get("id").isNull()) {
                         collection.setPosterPath(collectionNode.get("poster_path").asText());
                     }
 
-                    if(!collectionNode.get("id").isNull()) {
+                    if (!collectionNode.get("id").isNull()) {
                         collection.setBackdropPath(collectionNode.get("backdrop_path").asText());
                     }
 
@@ -194,7 +194,7 @@ public class ManualTreeModelParsing {
                 movies.add(movie);
             }
 
-            partialMovies.setPartialMovies(movies);
+            partialMovies.setMovies(movies);
         }
 
         // String resultFromFile = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(moviesPartialJsonNode);

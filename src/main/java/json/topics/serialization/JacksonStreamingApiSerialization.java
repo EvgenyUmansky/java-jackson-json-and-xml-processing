@@ -2,7 +2,7 @@ package json.topics.serialization;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
-import json.pojos.movies.partialjson.*;
+import json.pojos.movies.*;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,12 +10,12 @@ import java.util.List;
 
 public class JacksonStreamingApiSerialization {
 
-    public void streamSerializeMovies(PartialMovies partialMovies) throws IOException {
+    public void streamSerializeMovies(Movies partialMovies) throws IOException {
 
         // Create a factory which will be used for creating a JsonGenerator instance
         JsonFactory jsonFactory = new JsonFactory();
 
-        List<PartialMovie> movies = partialMovies.getPartialMovies();
+        List<Movie> movies = partialMovies.getMovies();
 
         // Create a JsonGenerator instance
         try (JsonGenerator jsonGenerator = jsonFactory.createGenerator(new FileOutputStream("stream_serialized_movies.json"))) {
@@ -32,7 +32,7 @@ public class JacksonStreamingApiSerialization {
             jsonGenerator.writeStartArray();
 
             // Iterate over the contacts and write each contact as a JSON object
-            for (PartialMovie movie : movies) {
+            for (Movie movie : movies) {
                 // Write the start object token
                 jsonGenerator.writeStartObject();
 

@@ -1,9 +1,13 @@
-package json.pojos.movies.partialjson;
+package json.pojos.movies;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import json.topics.MovieDeserializer;
+import json.topics.MovieSerializer;
 import json.topics.MovieViews;
 import lombok.Data;
 import lombok.ToString;
@@ -14,8 +18,10 @@ import java.util.List;
 
 @Data
 @ToString
+@JsonSerialize(using = MovieSerializer.class)
 @JsonIgnoreProperties
-public class PartialMovie implements Serializable {
+// @JsonDeserialize(using = MovieDeserializer.class)
+public class Movie implements Serializable {
 
     // talk / overview JsonProperty with all its attributes
     @JsonView({MovieViews.Public.class})
@@ -37,6 +43,8 @@ public class PartialMovie implements Serializable {
     @JsonProperty("original_language")
     String originalLanguage;
 
+//    @JsonDeserialize(using = MovieDeserializer.class)
+//    @JsonSerialize(using = MovieSerializer.class)
     @JsonView({MovieViews.Overview.class})
     @JsonProperty("overview")
     String overview;

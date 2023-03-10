@@ -4,17 +4,18 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import json.pojos.movies.partialjson.*;
+import json.pojos.movies.Movie;
+import json.pojos.movies.Movies;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class JacksonStreamingApiWithTreeModelParsing {
-    public PartialMovies readStreamTreeModelMovies(String fileName) throws Exception {
+    public Movies readStreamTreeModelMovies(String fileName) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        PartialMovies partialMovies = new PartialMovies();
-        List<PartialMovie> partialMovieList = new ArrayList<>();
+        Movies movies = new Movies();
+        List<Movie> movieList = new ArrayList<>();
 
         // Create a factory for creating a JsonParser instance
         JsonFactory jsonFactory = new JsonFactory();
@@ -29,16 +30,16 @@ public class JacksonStreamingApiWithTreeModelParsing {
 
             while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
                 // Read a contact instance using ObjectMapper and do something with it
-                PartialMovie partialMovie = objectMapper.readValue(jsonParser, PartialMovie.class);
-                partialMovieList.add(partialMovie);
+                Movie movie = objectMapper.readValue(jsonParser, Movie.class);
+                movieList.add(movie);
             }
 
-            partialMovies.setPartialMovies(partialMovieList);
+            movies.setMovies(movieList);
 
         } catch (Exception e) {
             throw new Exception(e);
         }
 
-        return partialMovies;
+        return movies;
     }
 }
