@@ -73,5 +73,4 @@ public class Movie implements Serializable {
     @JsonProperty("title")
     String title;
 
-
 }

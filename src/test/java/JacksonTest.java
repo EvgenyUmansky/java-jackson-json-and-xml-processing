@@ -1,6 +1,8 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import json.pojos.countires.City;
+import json.pojos.countires.Country;
 import json.pojos.movies.Movies;
 import json.topics.views.MovieViews;
 import json.topics.deserialization.*;
@@ -8,6 +10,9 @@ import json.topics.serialization.AutoSerialization;
 import json.topics.serialization.JacksonStreamingApiSerialization;
 import json.topics.serialization.JacksonStreamingApiWithTreeModelSerialization;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class JacksonTest {
     @Test
@@ -132,7 +137,7 @@ public class JacksonTest {
 
         // Jackson Streaming API: Tree Model parsing
         Movies movies = objectMapper.readerWithView(MovieViews.Public.class).readValue(
-                AutoParsing.class.getResourceAsStream("/%s".formatted("all_movies.json")),
+                JacksonTest.class.getResourceAsStream("/%s".formatted("all_movies.json")),
                 Movies.class);
 
         String resultFromFile = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(movies);
@@ -145,7 +150,7 @@ public class JacksonTest {
 
         // Jackson Streaming API: Tree Model parsing
         Movies movies = objectMapper.readValue(
-                AutoParsing.class.getResourceAsStream("/%s".formatted("all_movies.json")),
+                JacksonTest.class.getResourceAsStream("/%s".formatted("all_movies.json")),
                 Movies.class);
 
         String resultFromFile = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(movies);
@@ -158,7 +163,7 @@ public class JacksonTest {
 
         // Jackson Streaming API: Tree Model parsing
         Movies movies = objectMapper.readValue(
-                AutoParsing.class.getResourceAsStream("/%s".formatted("all_movies.json")),
+                JacksonTest.class.getResourceAsStream("/%s".formatted("all_movies.json")),
                 Movies.class);
 
 
@@ -166,5 +171,42 @@ public class JacksonTest {
                 objectMapper.valueToTree(movies);
 
         System.out.println(moviesPartialJsonNode.toString());
+    }
+
+    @Test
+    public void bidirectionalSerializerTest() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+//        Country country = objectMapper.readValue(
+//                JacksonTest.class.getResourceAsStream("/%s".formatted("bidirectional_country.json")),
+//                Country.class);
+
+        Country country = new Country();
+        country.setCountryId(1);
+        country.setCountryName("Ireland");
+        country.setCapitalName("Dublin");
+
+        City city = new City();
+        city.setCityId(2);
+        city.setCityName("Waterford");
+        city.setCountry(country);
+
+        List<City> cities = new ArrayList<>();
+        cities.add(city);
+
+        country.setCities(cities);
+
+        System.out.println(objectMapper.writeValueAsString(city));
+    }
+
+    @Test
+    public void bidirectionalDeserializerTest() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Country country = objectMapper.readValue(
+                JacksonTest.class.getResourceAsStream("/%s".formatted("bidirectional_country.json")),
+                Country.class);
+
+        System.out.println(country.toString());
     }
 }
