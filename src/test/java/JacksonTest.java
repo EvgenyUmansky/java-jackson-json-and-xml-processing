@@ -1,18 +1,23 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import json.pojos.countires.City;
-import json.pojos.countires.Country;
-import json.pojos.movies.Movies;
-import json.topics.views.MovieViews;
-import json.topics.deserialization.*;
-import json.topics.serialization.AutoSerialization;
-import json.topics.serialization.JacksonStreamingApiSerialization;
-import json.topics.serialization.JacksonStreamingApiWithTreeModelSerialization;
+import jackson.pojos.countires.City;
+import jackson.pojos.countires.Country;
+import jackson.pojos.movies.Movie;
+import jackson.pojos.movies.Movies;
+import jackson.topics.compare.MovieComparator;
+import jackson.topics.views.MovieViews;
+import jackson.topics.deserialization.*;
+import jackson.topics.serialization.AutoSerialization;
+import jackson.topics.serialization.JacksonStreamingApiSerialization;
+import jackson.topics.serialization.JacksonStreamingApiWithTreeModelSerialization;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class JacksonTest {
     @Test
@@ -208,5 +213,48 @@ public class JacksonTest {
                 Country.class);
 
         System.out.println(country.toString());
+    }
+
+    @Test
+    public void compareJsonsTest() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Movie movie_1 = objectMapper.readValue(
+                JacksonTest.class.getResourceAsStream("/%s".formatted("compare_movie_1.json")),
+                Movie.class);
+
+        Movie movie_2 = objectMapper.readValue(
+                JacksonTest.class.getResourceAsStream("/%s".formatted("compare_movie_2.json")),
+                Movie.class);
+
+        // assertEquals(movie_1, movie_2);
+        if(movie_1.equals(movie_2)){
+            System.out.println("equals");
+        }
+
+        if(!movie_1.equals(movie_2)){
+            System.out.println("not equals");
+        }
+    }
+
+    @Test
+    public void compareJsonsWithComparatorTest() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        JsonNode movie_1 = objectMapper.readTree(
+                JacksonTest.class.getResourceAsStream("/%s".formatted("compare_movie_1.json")));
+
+        JsonNode movie_2 = objectMapper.readTree(
+                JacksonTest.class.getResourceAsStream("/%s".formatted("compare_movie_2.json")));
+
+        MovieComparator movieComparator = new MovieComparator();
+
+        if(movie_1.equals(movieComparator, movie_2)){
+            System.out.println("equals");
+        }
+
+        if(!movie_1.equals(movieComparator, movie_2)){
+            System.out.println("not equals");
+        }
     }
 }
