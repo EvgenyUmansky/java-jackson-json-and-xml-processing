@@ -3,11 +3,13 @@ package jackson.topics.serialization;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import jackson.pojos.movies.Movie;
 import jackson.pojos.movies.Movies;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class JacksonStreamingApiWithTreeModelSerialization {
@@ -16,6 +18,9 @@ public class JacksonStreamingApiWithTreeModelSerialization {
     ObjectMapper objectMapper = new ObjectMapper();
 
     public void streamTreeModelSerializeMovies(Movies partialMovies) throws IOException {
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // Jackson will serialize the Date to a timestamp format by default
+        // SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        // objectMapper.setDateFormat(simpleDateFormat);
 
         // Create a factory which will be used for creating a JsonGenerator instance
         JsonFactory jsonFactory = new JsonFactory();

@@ -11,6 +11,9 @@ import jackson.topics.deserialization.*;
 import jackson.topics.serialization.AutoSerialization;
 import jackson.topics.serialization.JacksonStreamingApiSerialization;
 import jackson.topics.serialization.JacksonStreamingApiWithTreeModelSerialization;
+import jackson.topics.xml.DeserializeXml;
+import jackson.topics.xml.JsonToXml;
+import jackson.topics.xml.SerializeXml;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -256,5 +259,49 @@ public class JacksonTest {
         if(!movie_1.equals(movieComparator, movie_2)){
             System.out.println("not equals");
         }
+    }
+
+    @Test
+    public void convertMoviesJsonToXmlTest() throws Exception {
+        JsonToXml jsonToXml = new JsonToXml();
+
+        String moviesXml = jsonToXml.convertMoviesJsonToXml("all_movies.json");
+
+        System.out.println(moviesXml);
+    }
+
+    @Test
+    public void deserializeReadValueMoviesToXmlTest() throws Exception {
+
+        DeserializeXml deserializeXml = new DeserializeXml();
+
+        Movies movies = deserializeXml.deserializeReadValueMovies("movies.xml");
+
+        System.out.println(movies);
+    }
+
+    @Test
+    public void deserializeReadTreeMoviesToXmlTest() throws Exception {
+
+        DeserializeXml deserializeXml = new DeserializeXml();
+
+        Movies movies = deserializeXml.deserializeReadTreeMovies("movies.xml");
+
+        System.out.println(movies);
+    }
+
+    @Test
+    public void serializeMoviesToXmlTest() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Movies movies = objectMapper.readValue(
+                AutoParsing.class.getResourceAsStream("/%s".formatted("all_movies.json")),
+                Movies.class);
+
+        SerializeXml serializeXml = new SerializeXml();
+
+        String moviesXml = serializeXml.serialiseMovieXml(movies);
+
+        System.out.println(moviesXml);
     }
 }

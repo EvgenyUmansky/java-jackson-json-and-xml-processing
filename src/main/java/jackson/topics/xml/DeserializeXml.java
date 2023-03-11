@@ -1,51 +1,38 @@
-package jackson.topics.deserialization;
+package jackson.topics.xml;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jackson.JsonProcessingUtils;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import jackson.pojos.movies.*;
-import lombok.extern.log4j.Log4j2;
+import jackson.topics.deserialization.AutoParsing;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-@Log4j2
-public class ManualTreeModelParsing {
-    public void parseJson() throws Exception {
-        JsonProcessingUtils.mergePartialJsonToFile(
-                Objects.requireNonNull(AutoParsing.class.getResource("/separate_movie_jsons"))
-                        .getFile()
-                        .replaceFirst("/", ""), // replace /C:/ to C:/
-                Objects.requireNonNull(AutoParsing.class.getResource(""))
-                        .getFile()
-                        .replaceFirst("/", ""), // replace /C:/ to C:/
-                "all_movies.json",
-                "movies");
+public class DeserializeXml {
+    public Movies deserializeReadValueMovies(String fileName) throws IOException {
+        XmlMapper xmlMapper = new XmlMapper();
 
-        // You may choose readTree when you do not know exact type of the Object
-        // or want to preprocess a field before adding it to POJO
-        long start = System.currentTimeMillis();
-        Movies movies = readTreeSequentialSerializePartialMovies("all_movies.json");
-        long end = System.currentTimeMillis();
+        Movies movies = xmlMapper.readValue(
+                AutoParsing.class.getResourceAsStream("/%s".formatted(fileName)),
+                Movies.class);
 
-        System.out.printf("[UseJsonNode] manual sequential parsing with ObjectMapper readTree runtime: %d ms%n", end - start);
+        return movies;
     }
 
-    public Movies readTreeSequentialSerializePartialMovies(String fileName) throws IOException, ParseException {
-        ObjectMapper objectMapper = new ObjectMapper();
+    public Movies deserializeReadTreeMovies(String fileName) throws IOException, ParseException {
+        XmlMapper xmlMapper = new XmlMapper();
 
-        JsonNode moviesJsonNode =
-                objectMapper.readTree(AutoParsing.class.getResourceAsStream("/%s".formatted(fileName))
-                );
+        JsonNode moviesJsonNode = xmlMapper.readTree(
+                AutoParsing.class.getResourceAsStream("/%s".formatted(fileName)));
+
 
         // create main POJO
         Movies movies = new Movies();
 
-        JsonNode moviesNode = moviesJsonNode.get("movies");
+        JsonNode moviesNode = moviesJsonNode.get("movies").get("movies");
 
         if (!moviesNode.isNull() && moviesNode.isArray()) {
             List<Movie> movieList = new ArrayList<>();
@@ -87,7 +74,7 @@ public class ManualTreeModelParsing {
                 }
 
                 // ############ GENRES ############
-                JsonNode genreListNode = movieNode.get("genres");
+                JsonNode genreListNode = movieNode.get("genres").get("genres");
 
                 if (!genreListNode.isNull() && genreListNode.isArray()) {
                     List<Genre> genreList = new ArrayList<>();
@@ -111,9 +98,9 @@ public class ManualTreeModelParsing {
 
                 // OneToOne relationship
                 // ############ COLLECTION ############
-                JsonNode collectionNode = movieNode.get("belongs_to_collection");
+                JsonNode collectionNode = movieNode.get("belongs_to_collection").get("belongs_to_collection");
 
-                if (collectionNode != null && !collectionNode.isNull()) {
+                if (collectionNode != null && !collectionNode.isNull() && !collectionNode.asText().isEmpty()) {
                     Collection collection = new Collection();
 
                     if (!collectionNode.get("id").isNull()) {
@@ -137,9 +124,9 @@ public class ManualTreeModelParsing {
 
                 // OneToMany relationship
                 // ############ PRODUCTION COMPANIES ############
-                JsonNode productionCompanyListNode = movieNode.get("production_companies");
+                JsonNode productionCompanyListNode = movieNode.get("production_companies").get("production_companies");
 
-                if (!productionCompanyListNode.isNull() && productionCompanyListNode.isArray()) {
+                if (productionCompanyListNode != null && !productionCompanyListNode.isNull() && productionCompanyListNode.isArray()) {
                     List<ProductionCompany> productionCompanyList = new ArrayList<>();
 
                     for (JsonNode productionCompanyNode : productionCompanyListNode) {
@@ -169,7 +156,7 @@ public class ManualTreeModelParsing {
                 }
 
                 // ############ PRODUCTION MOVIES ############
-                JsonNode productionCountryListNode = movieNode.get("production_countries");
+                JsonNode productionCountryListNode = movieNode.get("production_countries").get("production_countries");
 
                 if (!productionCountryListNode.isNull() && productionCountryListNode.isArray()) {
                     List<ProductionCountry> productionCountryList = new ArrayList<>();

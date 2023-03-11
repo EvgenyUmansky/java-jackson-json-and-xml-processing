@@ -14,31 +14,21 @@ import java.util.stream.StreamSupport;
 
 @Log4j2
 public class ManualTreeModelParallelParsing {
-    public void parseJson() throws Exception {
-        // You may choose readTree when you do not know exact type of the Object
-        // or want to preprocess a field before adding it to POJO
-        long start = System.currentTimeMillis();
-        Movies movies = readTreeParallelSerializePartialMovies("all_movies.json");
-        long end = System.currentTimeMillis();
 
-        System.out.printf("[UseJsonNode] manual stream parallel parsing with ObjectMapper readTree runtime: %d ms%n",
-                end - start);
-    }
-
-    public Movies readTreeParallelSerializePartialMovies(String fileName) throws IOException, ParseException {
+    public Movies readTreeParallelSerializePartialMovies(String fileName) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        JsonNode moviesPartialJsonNode =
+        JsonNode moviesJsonNode =
                 objectMapper.readTree(AutoParsing.class.getResourceAsStream("/%s".formatted(fileName))
                 );
 
         // create main POJO
-        Movies partialMovies = new Movies();
+        Movies movies = new Movies();
 
-        JsonNode moviesNode = moviesPartialJsonNode.get("movies");
+        JsonNode moviesNode = moviesJsonNode.get("movies");
 
         if (!moviesNode.isNull() && moviesNode.isArray()) {
-            List<Movie> movies = new CopyOnWriteArrayList<>();
+            List<Movie> movieList = new CopyOnWriteArrayList<>();
 
             StreamSupport.stream(moviesNode.spliterator(), true).forEach(movieNode -> {
                 Movie movie = new Movie();
@@ -187,15 +177,15 @@ public class ManualTreeModelParallelParsing {
                     movie.setProductionCountries(productionCountryList);
                 }
 
-                movies.add(movie);
+                movieList.add(movie);
             });
 
-            partialMovies.setMovies(movies);
+            movies.setMovies(movieList);
         }
 
-        // String resultFromFile = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(moviesPartialJsonNode);
+        // String resultFromFile = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(moviesJsonNode);
         // System.out.println(resultFromFile);
 
-        return partialMovies;
+        return movies;
     }
 }
